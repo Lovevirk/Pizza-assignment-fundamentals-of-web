@@ -1,0 +1,194 @@
+/* Resetting default margin, padding, and font for the entire document */
+body {
+    background-color: #000000; /* Set background color to black */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    font-family: Arial, sans-serif; /* Set default font family */
+}
+
+/* Styling for the navigation bar */
+.navbar {
+    background-color: #ffcc00; /* Set background color to a shade of yellow */
+    padding: 10px; /* Add padding around the navigation bar */
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space items evenly along the horizontal axis */
+    color: black; /* Set text color to black */
+    text-decoration: none; /* Remove underline from links */
+    font-weight: bold; /* Set font weight to bold */
+    font-size: 20px; /* Set font size */
+}
+
+/* Styling for navigation links */
+.navbar a {
+    color: black; /* Set link color to black */
+    text-decoration: none; /* Remove underline from links */
+    padding: 20px; /* Add padding around links */
+    margin-right: 15px; /* Add right margin to links */
+    font-weight: bold; /* Set font weight to bold */
+    font-size: 22px; /* Set font size */
+}
+
+/* Styling for the total display */
+.total {
+    margin: 0; /* Reset margin */
+    background-color: #000000; /* Set background color to black */
+    color: #ffcc00; /* Set text color to a shade of yellow */
+    height: 35px; /* Set height */
+    text-align: center; /* Center-align text */
+    width: 150px; /* Set width */
+    padding: 12px 5px 5px 5px; /* Set padding */
+    border-radius: 3px; /* Add border-radius */
+}
+
+/* Styling for hover effect on navigation links */
+.navbar a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Styling for the container of navigation elements */
+.navbar-container {
+    margin-top: 12px; /* Set top margin */
+}
+
+/* Styling for the pizza cards section */
+.pizza-cards {
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allow wrapping to the next line */
+    justify-content: space-between; /* Space items evenly along the horizontal axis */
+    gap: 20px; /* Set the gap between items */
+    padding: 20px; /* Add padding */
+}
+
+/* Styling for individual pizza cards */
+.pizza-card {
+    background-color: #ffcc00; /* Set background color to a shade of yellow */
+    border-radius: 10px; /* Add border-radius */
+    text-align: center; /* Center-align text */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add box shadow */
+}
+
+/* Styling for pizza information inside a card */
+.pizza-info {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-evenly; /* Space items evenly along the horizontal axis */
+}
+
+/* Styling for pizza card images */
+.pizza-card img {
+    margin-top: 14px; /* Add top margin */
+    height: 120px; /* Set height */
+    width: 250px; /* Set width */
+    border-radius: 6px; /* Add border-radius */
+    border: 1px solid black; /* Add border */
+    box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 0.8); /* Add box shadow */
+}
+
+/* Styling for size options section */
+.size-options {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-around; /* Space items evenly along the horizontal axis */
+    margin: 5px 0; /* Add margin */
+}
+
+/* Styling for size buttons */
+.size-button {
+    cursor: pointer; /* Set cursor to pointer */
+    padding: 10px 20px; /* Set padding */
+    width: 250px; /* Set width */
+    background-color: #ff9900; /* Set background color to a shade of orange */
+    color: #fff; /* Set text color to white */
+    border: none; /* Remove borders */
+    border-radius: 5px; /* Add border-radius */
+    font-size: 16px; /* Set font size */
+    transition: background-color 0.3s ease; /* Add transition effect */
+    margin: 1px 0; /* Add margin */
+}
+
+/* Styling for price column */
+.price-column {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Set flex direction to column */
+}
+
+/* Styling for hover effect on size buttons */
+.size-button:hover {
+    background-color: #ffd700; /* Change background color on hover */
+    color: #000000; /* Change text color on hover */
+}
+
+/* Styling for size column */
+.size-column {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Set flex direction to column */
+}
+
+/* Styling for the price display */
+.price {
+    font-weight: bold; /* Set font weight to bold */
+    padding: 20px; /* Add padding */
+    color: #333; /* Set text color */
+    background-color: rgba(255, 255, 255, 0.3); /* Set background color with transparency */
+    border: none; /* Remove borders */
+    border-radius: 5px; /* Add border-radius */
+    transition: background-color 0.3s ease; /* Add transition effect */
+}
+
+/* Styling for counter buttons */
+.counter-button {
+    height: 30px; /* Set height */
+    width: 60px; /* Set width */
+    font-weight: bold; /* Set font weight to bold */
+    color: #ffffff; /* Set text color to white */
+    background-color: #333; /* Set background color to a shade of gray */
+    border: none; /* Remove borders */
+    border-radius: 5px; /* Add border-radius */
+    transition: background-color 0.3s ease; /* Add transition effect */
+    font-size: 18px; /* Set font size */
+    cursor: pointer; /* Set cursor to pointer */
+}
+
+/* Styling for counter value display */
+.counter-value {
+    margin: 3px; /* Add margin */
+    font-size: larger; /* Set font size to larger */
+}
+
+/* Styling for the order button */
+.order-button {
+    cursor: pointer; /* Set cursor to pointer */
+    padding: 10px 30px; /* Set padding */
+    background-color: #333; /* Set background color to a shade of gray */
+    color: #fff; /* Set text color to white */
+    border: none; /* Remove borders */
+    border-radius: 5px; /* Add border-radius */
+    font-size: 18px; /* Set font size */
+    transition: background-color 0.3s ease; /* Add transition effect */
+    height: 56px; /* Set height */
+}
+
+/* Styling for hover effect on the order button */
+.order-button:hover {
+    background-color: #ff6600; /* Change background color on hover */
+}
+
+/* Styling for the total footer section */
+.total-footer {
+    margin: 10px 20px 30px 10px ; /* Set margin */
+    background-color: #ffcc00; /* Set background color to a shade of yellow */
+    text-align: center; /* Center-align text */
+    padding: 12px ; /* Add padding */
+    border-radius: 3px; /* Add border-radius */
+    float: right; /* Float to the right */
+    height: auto; /* Set height to auto */
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Set flex direction to column */
+}
+
+/* Styling for links inside the total footer section */
+.total-footer a {
+    color: #000000; /* Set link color to black */
+    text-decoration: none; /* Remove underline from links */
+    font-size: 20px; /* Set font size */
+    border: 1px solid black; /* Add border */
+    padding: 5px; /* Add padding */
+}

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- External CSS stylesheet for styling -->
+    <link rel="stylesheet" href="pizza.css">
+    <!-- External Font Awesome CSS for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- External JavaScript file for login functionality -->
+    <script src="login.js"></script>
+    <!-- Meta tag for responsive design -->
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+</head>
+
+<!-- JavaScript functions for updating pizza prices, counters, and calculating the total -->
+<script>
+    // Function to update the price based on the selected size
+    function updatePrice(button, price) {
+        // Find the parent size-options element
+        var sizeOptionsElement = button.closest('.size-options');
+        // Find the price column within the size-options element
+        var priceColumn = sizeOptionsElement.querySelector('.price');
+        // Update the price text content
+        priceColumn.textContent = "Price: $" + price;
+
+        // Call the function to update the total
+        updateTotal();
+    }
+
+    // Function to update the counter value based on the operation (increment or decrement)
+    function updateCounter(button, operation) {
+        // Find the parent size-options element
+        var sizeOptionsElement = button.closest('.size-options');
+        // Find the counter value element within the size-options element
+        var counterValueElement = sizeOptionsElement.querySelector('.counter-value');
+
+        // Get the current count from the dataset attribute or set it to 0 if undefined
+        var count = parseInt(counterValueElement.dataset.count, 10) || 0;
+
+        // Perform the increment or decrement operation based on the button clicked
+        if (operation === 'decrement' && count > 0) {
+            count--;
+        } else if (operation === 'increment') {
+            count++;
+        }
+
+        // Update the counter text content and dataset attribute
+        counterValueElement.textContent = count + " ea";
+        counterValueElement.dataset.count = count;
+
+        // Call the function to update the total
+        updateTotal();
+    }
+
+    // Function to calculate the total based on selected items and update the display
+    function updateTotal() {
+        // Find all elements with the 'price' class
+        var priceElements = document.querySelectorAll('.price');
+
+        // Initialize total price and cart content variables
+        var totalPrice = 0;
+        var cartContent = "";
+
+        // Loop through each price element
+        priceElements.forEach(function (priceElement) {
+            // Extract the numerical price value from the text content
+            var price = parseFloat(priceElement.textContent.replace("Price: $", "")) || 0;
+            // Find the counter value element in the same size-options element
+            var counterValueElement = priceElement.closest('.size-options').querySelector('.counter-value');
+            // Get the count from the dataset attribute or set it to 0 if undefined
+            var count = parseInt(counterValueElement.dataset.count, 10) || 0;
+            // Calculate the subtotal for the current item
+            var subtotal = price * count;
+
+            // Update the total price
+            totalPrice += subtotal;
+
+            // If there are items selected, update the cart content
+            if (count > 0) {
+                // Find the pizza name from the closest pizza-card element
+                var pizzaName = priceElement.closest('.pizza-card').querySelector('.text-info').textContent.trim();
+                // Append the item details to the cart content
+                cartContent += `${pizzaName} - ${count} ea: $${subtotal.toFixed(2)}<br>`;
+            }
+        });
+
+        // Update the total price and cart content display
+        document.querySelector('.total').textContent = "TOTAL $" + totalPrice.toFixed(2);
+        document.querySelector('.cart-content').innerHTML = cartContent;
+    }
+
+    // Function to load initial values from sessionStorage when the window is loaded
+    window.onload = function () {
+        // Loop through each pizza card
+        document.querySelectorAll('.pizza-card').forEach(function (pizzaCard) {
+            // Extract the pizza card ID
+            var pizzaCardId = pizzaCard.id;
+            // Get the count and price from sessionStorage or set them to 0 if undefined
+            var count = sessionStorage.getItem(pizzaCardId + '-count') || 0;
+            var price = sessionStorage.getItem(pizzaCardId + '-price') || 0;
+
+            // Find the size-options and counter-value elements within the pizza card
+            var sizeOptionsElement = pizzaCard.querySelector('.size-options');
+            var counterValueElement = sizeOptionsElement.querySelector('.counter-value');
+
+            // Update the counter value text content and dataset attribute
+            counterValueElement.textContent = count + " ea";
+            counterValueElement.dataset.count = count;
+
+            // Update the price text content
+            sizeOptionsElement.querySelector('.price').textContent = "Price: $" + price;
+        });
+
+        // Log initial values to the console for debugging
+        console.log("Initial values loaded from sessionStorage:");
+        document.querySelectorAll('.pizza-card').forEach(function (pizzaCard) {
+            var pizzaCardId = pizzaCard.id;
+            var count = sessionStorage.getItem(pizzaCardId + '-count') || 0;
+            var price = sessionStorage.getItem(pizzaCardId + '-price') || 0;
+
+            console.log(`${pizzaCardId}: count=${count}, price=${price}`);
+        });
+    };
+</script>
+
+
+<body>
+
+   
+    <div class="navbar">
+        <div class="navbar-container">
+            <a href="pizza1.html">Pizza</a>
+            <a href="#" style="text-decoration: underline;">Sides</a>
+            <a href="dessert.html">Desserts</a>
+            <a href="drink.html">Drinks</a>
+            <a href="#">Checkout</a>
+        </div>
+
+        <p class="total"> TOTAL $ </p>
+    </div>
+
+
+            <div class="pizza-cards">
+
+                <div class="pizza-card">
+                   
+                    <div class="pizza-info">
+                        <img src="s1.avif" alt="Veggie Delight Pizza">
+                        <div class="text-info">
+                          <h3>  CRISPY  </h3>
+                          <h3> POTATO  </h3>
+                          <h3> CHIPS </h3>
+                        </div>
+                    </div>
+
+                    <div class="size-options">
+                        <div class="size-column">
+                            <button class="size-button" onclick="updatePrice(this, 3.19)">Spicy</button>
+                            <button class="size-button" onclick="updatePrice(this, 2.49)">Salty</button>
+                            <button class="size-button" onclick="updatePrice(this, 2.99)">Salt-free</button>
+                        </div>
+                        <div class="price-column"> 
+                            <span class="price">Price: $</span>
+                            <p class="counter-value"> 0 ea</p>
+                            <div class="counter">
+                                <button class="counter-button" onclick="updateCounter(this, 'decrement')">-</button>
+        
+                                <button class="counter-button" onclick="updateCounter(this, 'increment')">+</button>
+                            </div>
+                        </div>                     
+                   </div>
+                   
+            </div>
+
+
+            <div class="pizza-card">
+                   
+                <div class="pizza-info">
+                    <img src="s2.avif" alt="Veggie Delight Pizza">
+                    <div class="text-info">
+                      <h3>  CRISPY  </h3>
+                      <h3> POTATO  </h3>
+                      <h3> WEDGES </h3>
+                    </div>
+                </div>
+
+                <div class="size-options">
+                    <div class="size-column">
+                        <button class="size-button" onclick="updatePrice(this, 3.19)">Spicy</button>
+                        <button class="size-button" onclick="updatePrice(this, 2.49)">Salty</button>
+                        <button class="size-button" onclick="updatePrice(this, 2.99)">Salt-free</button>
+                    </div>
+                    <div class="price-column"> 
+                        <span class="price">Price: $</span>
+                        <p class="counter-value"> 0 ea</p>
+                        <div class="counter">
+                            <button class="counter-button" onclick="updateCounter(this, 'decrement')">-</button>
+    
+                            <button class="counter-button" onclick="updateCounter(this, 'increment')">+</button>
+                        </div>
+                    </div>                     
+               </div>
+               
+        </div>
+
+
+                <div class="pizza-card">
+                   
+                    <div class="pizza-info">
+                        <img src="s3.avif" alt="Veggie Delight Pizza">
+                        <div class="text-info">
+                          <h3>  CHESSE & </h3>
+                          <h3> GARLIC   </h3>
+                          <h3> SCROLLS</h3>
+                        </div>
+                    </div>
+
+                    <div class="size-options">
+                        <div class="size-column">
+                            <button class="size-button" onclick="updatePrice(this, 3.19)">Spicy</button>
+                            <button class="size-button" onclick="updatePrice(this, 2.49)">Salty</button>
+                            <button class="size-button" onclick="updatePrice(this, 2.99)">Salt-free</button>
+                        </div>
+                        <div class="price-column"> 
+                            <span class="price">Price: $</span>
+                            <p class="counter-value"> 0 ea</p>
+                            <div class="counter">
+                                <button class="counter-button" onclick="updateCounter(this, 'decrement')">-</button>
+        
+                                <button class="counter-button" onclick="updateCounter(this, 'increment')">+</button>
+                            </div>
+                        </div>                     
+                   </div>
+                   
+            </div>
+
+
+            <div class="pizza-card">
+                   
+                <div class="pizza-info">
+                    <img src="s4.avif" alt="Veggie Delight Pizza">
+                    <div class="text-info">
+                      <h3> CHEESE </h3>
+                      <h3> GARLIC  </h3>
+                      <h3> BREADS</h3>
+                    </div>
+                </div>
+
+                <div class="size-options">
+                    <div class="size-column">
+                        <button class="size-button" onclick="updatePrice(this, 3.19)">Spicy</button>
+                        <button class="size-button" onclick="updatePrice(this, 2.49)">Salty</button>
+                        <button class="size-button" onclick="updatePrice(this, 2.99)">Salt-free</button>
+                    </div>
+                    <div class="price-column"> 
+                        <span class="price">Price: $</span>
+                        <p class="counter-value"> 0 ea</p>
+                        <div class="counter">
+                            <button class="counter-button" onclick="updateCounter(this, 'decrement')">-</button>
+    
+                            <button class="counter-button" onclick="updateCounter(this, 'increment')">+</button>
+                        </div>
+                    </div>                      
+               </div>
+               
+        </div>
+
+        <div class="pizza-card">
+                   
+            <div class="pizza-info">
+                <img src="s5.avif" alt="Veggie Delight Pizza">
+                <div class="text-info">
+                  <h3> VEGAN </h3>
+                  <h3> CHESSY  </h3>
+                  <h3> BREADS</h3>
+                </div>
+            </div>
+
+            <div class="size-options">
+                <div class="size-column">
+                    <button class="size-button" onclick="updatePrice(this, 3.19)">Spicy</button>
+                    <button class="size-button" onclick="updatePrice(this, 2.49)">Salty</button>
+                    <button class="size-button" onclick="updatePrice(this, 2.99)">Salt-free</button>
+                </div>
+                <div class="price-column"> 
+                    <span class="price">Price: $</span>
+                    <p class="counter-value"> 0 ea</p>
+                    <div class="counter">
+                        <button class="counter-button" onclick="updateCounter(this, 'decrement')">-</button>
+
+                        <button class="counter-button" onclick="updateCounter(this, 'increment')">+</button>
+                    </div>
+                </div>                      
+           </div>
+           
+    </div>
+
+    <div class="pizza-card">
+                   
+        <div class="pizza-info">
+            <img src="s6.avif" alt="Veggie Delight Pizza">
+            <div class="text-info">
+              <h3> FRIED </h3>
+              <h3> CHICKEN  </h3>
+              <h3> BITES</h3>
+            </div>
+        </div>
+
+        <div class="size-options">
+            <div class="size-column">
+                <button class="size-button" onclick="updatePrice(this, 3.19)">Spicy</button>
+                <button class="size-button" onclick="updatePrice(this, 2.49)">Salty</button>
+                <button class="size-button" onclick="updatePrice(this, 2.99)">Salt-free</button>
+            </div>
+            <div class="price-column"> 
+                <span class="price">Price: $</span>
+                <p class="counter-value"> 0 ea</p>
+                <div class="counter">
+                    <button class="counter-button" onclick="updateCounter(this, 'decrement')">-</button>
+
+                    <button class="counter-button" onclick="updateCounter(this, 'increment')">+</button>
+                </div>
+            </div>                      
+       </div>
+        
+</div>
+
+
+        <div class="pizza-card">
+                   
+            <div class="pizza-info">
+                <img src="s7.avif" alt="Veggie Delight Pizza">
+                <div class="text-info">
+                  <h3> CHICKEN  </h3>
+                  <h3> MEGA   </h3>
+                  <h3>BOX </h3>
+                </div>
+            </div>
+
+            <div class="size-options">
+                <div class="size-column">
+                    <button class="size-button" onclick="updatePrice(this, 3.19)">Spicy</button>
+                    <button class="size-button" onclick="updatePrice(this, 2.49)">Salty</button>
+                    <button class="size-button" onclick="updatePrice(this, 2.99)">Salt-free</button>
+                </div>
+                <div class="price-column"> 
+                    <span class="price">Price: $</span>
+                    <p class="counter-value"> 0 ea</p>
+                    <div class="counter">
+                        <button class="counter-button" onclick="updateCounter(this, 'decrement')">-</button>
+
+                        <button class="counter-button" onclick="updateCounter(this, 'increment')">+</button>
+                    </div>
+                </div>                     
+           </div>
+            
+    </div>
+
+    <div class="pizza-card">
+                   
+        <div class="pizza-info">
+            <img src="s8.avif" alt="Veggie Delight Pizza">
+            <div class="text-info">
+              <h3> SEASONED </h3>
+              <h3>   CHICKEN  </h3>
+              <h3> WINGS </h3>
+            </div>
+        </div>
+
+        <div class="size-options">
+            <div class="size-column">
+                <button class="size-button" onclick="updatePrice(this, 3.19)">Spicy</button>
+                <button class="size-button" onclick="updatePrice(this, 2.49)">Salty</button>
+                <button class="size-button" onclick="updatePrice(this, 2.99)">Salt-free</button>
+            </div>
+            <div class="price-column"> 
+                <span class="price">Price: $</span>
+                <p class="counter-value"> 0 ea</p>
+                <div class="counter">
+                    <button class="counter-button" onclick="updateCounter(this, 'decrement')">-</button>
+
+                    <button class="counter-button" onclick="updateCounter(this, 'increment')">+</button>
+                </div>
+            </div>                    
+       </div>
+       
+</div>
+
+
+<div class="pizza-card">
+                   
+    <div class="pizza-info">
+        <img src="s9.avif" alt="Veggie Delight Pizza">
+        <div class="text-info">
+          <h3> DIPPING  </h3>
+          <h3>   CHINESE  </h3>
+          <h3> SAUCES </h3>
+        </div>
+    </div>
+
+    <div class="size-options">
+        <div class="size-column">
+            <button class="size-button" onclick="updatePrice(this, 3.19)">Spicy</button>
+            <button class="size-button" onclick="updatePrice(this, 2.49)">Salty</button>
+            <button class="size-button" onclick="updatePrice(this, 2.99)">Salt-free</button>
+        </div>
+        <div class="price-column"> 
+            <span class="price">Price: $</span>
+            <p class="counter-value"> 0 ea</p>
+            <div class="counter">
+                <button class="counter-button" onclick="updateCounter(this, 'decrement')">-</button>
+
+                <button class="counter-button" onclick="updateCounter(this, 'increment')">+</button>
+            </div>
+        </div>                    
+   </div>
+    
+</div>
+
+
+
+    </div>
+
+
+   <!-- Total Footer Section -->
+<div class="total-footer">
+
+    <!-- Cart Container -->
+    <div class="cart-container">
+        <!-- Cart Content Placeholder -->
+        <div class="cart-content"></div>
+    </div>
+
+    <!-- Button to Clear All Items in Session Storage -->
+    <button onclick="clearSessionStorage()">Clear All</button>
+
+    <!-- Logout Link -->
+    <a href="login.html"> Log out</a>
+
+</div>
+
+
+</body>
+
+</html>
